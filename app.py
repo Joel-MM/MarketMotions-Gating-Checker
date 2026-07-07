@@ -11,15 +11,21 @@ from sp_api.base import Marketplaces, SellingApiException
 
 load_dotenv()
 
-SELLER_ID = os.getenv("SELLER_ID")
-MARKETPLACE_ID = os.getenv("MARKETPLACE_ID", "A2EUQ1WTGCTBG2")
+def get_secret(name, default=None):
+    try:
+        return st.secrets[name]
+    except Exception:
+        return os.getenv(name, default)
+
+SELLER_ID = get_secret("SELLER_ID")
+MARKETPLACE_ID = get_secret("MARKETPLACE_ID", "A2EUQ1WTGCTBG2")
 
 credentials = {
-    "refresh_token": os.getenv("REFRESH_TOKEN"),
-    "lwa_app_id": os.getenv("LWA_APP_ID"),
-    "lwa_client_secret": os.getenv("LWA_CLIENT_SECRET"),
-    "aws_access_key": os.getenv("AWS_ACCESS_KEY_ID"),
-    "aws_secret_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
+    "refresh_token": get_secret("REFRESH_TOKEN"),
+    "lwa_app_id": get_secret("LWA_APP_ID"),
+    "lwa_client_secret": get_secret("LWA_CLIENT_SECRET"),
+    "aws_access_key": get_secret("AWS_ACCESS_KEY_ID"),
+    "aws_secret_key": get_secret("AWS_SECRET_ACCESS_KEY"),
 }
 
 api = ListingsRestrictions(
